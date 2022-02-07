@@ -9,5 +9,6 @@
         Task UpdatePut();
         Task UpdatePatch();
         Task Delete();
+        Task Delayed();
     }
 }

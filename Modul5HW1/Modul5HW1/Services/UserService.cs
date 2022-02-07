@@ -81,5 +81,12 @@ namespace Modul5HW1.Services
                 var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.DELETE);
                 _config.ConfigSerialize(list, "delete.json");
         }
+
+        public async Task Delayed()
+        {
+            Console.Write($"{nameof(Delayed)}: ");
+            var list = await _httpService.SendPost<UserList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/?delay=3", Mode.GET);
+            _config.ConfigSerialize(list, "delayed.json");
+        }
     }
 }

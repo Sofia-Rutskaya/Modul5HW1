@@ -28,6 +28,7 @@ namespace Modul5HW1
             await _userService.UpdatePut();
             await _userService.UpdatePatch();
             await _userService.Delete();
+            await _userService.Delayed();
 
             _resourceService = new ResourceService(_configService, _httpService);
             await _resourceService.ResourceList();
@@ -36,6 +37,9 @@ namespace Modul5HW1
 
             _authService = new AuthService(_configService, _httpService);
             await _authService.RegisterSuccessful();
+            await _authService.RegisterUnsuccessful();
+            await _authService.LoginSuccessful();
+            await _authService.LoginUnsuccessful();
         }
     }
 }

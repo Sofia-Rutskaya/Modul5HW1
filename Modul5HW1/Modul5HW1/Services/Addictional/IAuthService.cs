@@ -3,5 +3,8 @@
     public interface IAuthService
     {
         Task RegisterSuccessful();
+        Task RegisterUnsuccessful();
+        Task LoginSuccessful();
+        Task LoginUnsuccessful();
     }
 }
