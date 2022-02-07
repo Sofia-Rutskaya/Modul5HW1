@@ -18,6 +18,8 @@ namespace Modul5HW1
         {
             var request = new UserService(_configService, _httpService);
             request.UsersList().GetAwaiter().GetResult();
+            request.SingleUser().GetAwaiter().GetResult();
+            request.SingleUserNotFound().GetAwaiter().GetResult();
         }
     }
 }
