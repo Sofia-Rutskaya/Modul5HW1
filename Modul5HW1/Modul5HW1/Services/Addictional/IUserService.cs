@@ -7,5 +7,7 @@
         Task SingleUserNotFound();
         Task Create();
         Task UpdatePut();
+        Task UpdatePatch();
+        Task Delete();
     }
 }

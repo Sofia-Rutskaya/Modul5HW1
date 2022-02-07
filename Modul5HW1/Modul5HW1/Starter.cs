@@ -9,6 +9,7 @@ namespace Modul5HW1
         private readonly ConfigService _configService;
         private IUserService? _userService;
         private IResourceService? _resourceService;
+        private IAuthService? _authService;
 
         public Starter(IHttpService httpService)
         {
@@ -25,11 +26,16 @@ namespace Modul5HW1
             await _userService.SingleUserNotFound();
             await _userService.Create();
             await _userService.UpdatePut();
+            await _userService.UpdatePatch();
+            await _userService.Delete();
 
             _resourceService = new ResourceService(_configService, _httpService);
             await _resourceService.ResourceList();
             await _resourceService.SingleResource();
             await _resourceService.SingleResourceNotFound();
+
+            _authService = new AuthService(_configService, _httpService);
+            await _authService.RegisterSuccessful();
         }
     }
 }

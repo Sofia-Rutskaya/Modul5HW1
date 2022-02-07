@@ -61,5 +61,25 @@ namespace Modul5HW1.Services
                 var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.PUT, client);
                 _config.ConfigSerialize(list, "updatePut.json");
         }
+
+        public async Task UpdatePatch()
+        {
+                Console.Write($"{nameof(UpdatePatch)}: ");
+                var user = new
+                {
+                    name = "morpheus",
+                    job = "zion resident"
+                };
+                var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
+                var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.PATCH, client);
+                _config.ConfigSerialize(list, "updatePatch.json");
+        }
+
+        public async Task Delete()
+        {
+                Console.Write($"{nameof(Delete)}: ");
+                var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.DELETE);
+                _config.ConfigSerialize(list, "delete.json");
+        }
     }
 }

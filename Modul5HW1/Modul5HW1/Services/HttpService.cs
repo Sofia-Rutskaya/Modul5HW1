@@ -37,11 +37,26 @@ namespace Modul5HW1.Services
 
                 case Mode.PUT:
 
-                    var response = await _httpClient.PutAsync(url, httpContent);
-                    Console.WriteLine(response.StatusCode);
-                    var contentPut = await response.Content.ReadAsStringAsync();
+                    var responsePut = await _httpClient.PutAsync(url, httpContent);
+                    Console.WriteLine(responsePut.StatusCode);
+                    var contentPut = await responsePut.Content.ReadAsStringAsync();
                     var userPut = JsonConvert.DeserializeObject<T>(contentPut);
                     return userPut;
+
+                case Mode.PATCH:
+
+                    var responsePatch = await _httpClient.PatchAsync(url, httpContent);
+                    Console.WriteLine(responsePatch.StatusCode);
+                    var contentPatch = await responsePatch.Content.ReadAsStringAsync();
+                    var userPatch = JsonConvert.DeserializeObject<T>(contentPatch);
+                    return userPatch;
+                case Mode.DELETE:
+
+                    var responseDelete = await _httpClient.DeleteAsync(url);
+                    Console.WriteLine(responseDelete.StatusCode);
+                    var contentDelete = await responseDelete.Content.ReadAsStringAsync();
+                    var userDelete = JsonConvert.DeserializeObject<T>(contentDelete);
+                    return userDelete;
             }
 
             return default(T);
