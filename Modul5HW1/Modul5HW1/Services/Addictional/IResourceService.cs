@@ -2,5 +2,8 @@
 {
     public interface IResourceService
     {
+        Task ResourceList();
+        Task SingleResource();
+        Task SingleResourceNotFound();
     }
 }

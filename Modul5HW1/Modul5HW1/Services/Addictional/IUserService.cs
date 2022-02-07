@@ -3,5 +3,7 @@
     public interface IUserService
     {
         Task UsersList();
+        Task SingleUser();
+        Task SingleUserNotFound();
     }
 }

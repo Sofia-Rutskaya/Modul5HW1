@@ -7,6 +7,8 @@ namespace Modul5HW1
     {
         private readonly IHttpService _httpService;
         private readonly ConfigService _configService;
+        private IUserService? _userService;
+        private IResourceService? _resourceService;
 
         public Starter(IHttpService httpService)
         {
@@ -14,12 +16,18 @@ namespace Modul5HW1
             _configService = new ConfigService();
         }
 
-        public void Run()
+        public async void Run()
         {
-            var request = new UserService(_configService, _httpService);
-            request.UsersList().GetAwaiter().GetResult();
-            request.SingleUser().GetAwaiter().GetResult();
-            request.SingleUserNotFound().GetAwaiter().GetResult();
+            _userService = new UserService(_configService, _httpService);
+
+            await _userService.UsersList();
+            await _userService.SingleUser();
+            await _userService.SingleUserNotFound();
+
+            _resourceService = new ResourceService(_configService, _httpService);
+            await _resourceService.ResourceList();
+            await _resourceService.SingleResource();
+            await _resourceService.SingleResourceNotFound();
         }
     }
 }
