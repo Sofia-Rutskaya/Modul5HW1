@@ -12,7 +12,7 @@ namespace Modul5HW1.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task SendPost<T>(string url)
+        public async Task<T?> SendPost<T>(string url)
         {
             var result = await _httpClient.GetAsync(url);
             Console.WriteLine(result.StatusCode);
@@ -20,7 +20,10 @@ namespace Modul5HW1.Services
             {
                 var content = await result.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<T>(content);
+                return user;
             }
+
+            return default(T);
         }
     }
 }

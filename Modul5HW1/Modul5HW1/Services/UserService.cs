@@ -16,7 +16,8 @@ namespace Modul5HW1.Services
         public async Task UsersList()
         {
             Console.Write($"{nameof(UsersList)}: ");
-            await _httpService.SendPost<Root>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}?page=2");
+            var list = await _httpService.SendPost<Root>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}?page=2");
+            _config.ConfigSerialize(list, "usersList.json");
         }
     }
 }

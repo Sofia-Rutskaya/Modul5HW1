@@ -11,5 +11,11 @@ namespace Modul5HW1.Services
             var config = JsonConvert.DeserializeObject<ConfigURL>(configFile);
             return config;
         }
+
+        public void ConfigSerialize(object? config, string fileName)
+        {
+            var json = JsonConvert.SerializeObject(config);
+            File.WriteAllText(@$"C:\Users\admin\Source\Repos\Sofia-Rutskaya\Modul5HW1\Modul5HW1\Modul5HW1\Models\Response\{fileName}", json);
+        }
     }
 }
