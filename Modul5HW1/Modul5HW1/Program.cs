@@ -1,16 +1,25 @@
-﻿using Newtonsoft.Json;
-using Modul5HW1.DTO;
-using Modul5HW1.DTO.Queries;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Modul5HW1.Services;
+using Modul5HW1.Services.Addictional;
 
-public class Program
+namespace Modul5HW1
 {
-    public static void Main(string[] args)
+    public class Program
     {
-    // {
-    //    var send = new SendQuery<SingleUser>();
-    //    send.SendPost(@"https://reqres.in/api/users/2").GetAwaiter().GetResult(); // Вынести в конфиг
-    //    send.SendPost(@"https://reqres.in/api/users/23").GetAwaiter().GetResult();
-        var get = new SendQuery<Root>();
-        get.SendPost(@"https://reqres.in/api/users?page=2").GetAwaiter().GetResult();
+        public static void Main(string[] args)
+        {
+            var client = new HttpClient();
+
+            var serviceProvider = new ServiceCollection()
+               .AddSingleton<IUserService, UserService>()
+               .AddSingleton<IHttpService, HttpService>()
+               .AddTransient<Starter>()
+               .BuildServiceProvider();
+
+            var start = serviceProvider.GetService<Starter>();
+            start?.Run();
+
+            Console.Read();
+        }
     }
 }
