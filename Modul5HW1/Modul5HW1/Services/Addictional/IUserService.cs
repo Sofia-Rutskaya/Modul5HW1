@@ -5,5 +5,7 @@
         Task UsersList();
         Task SingleUser();
         Task SingleUserNotFound();
+        Task Create();
+        Task UpdatePut();
     }
 }

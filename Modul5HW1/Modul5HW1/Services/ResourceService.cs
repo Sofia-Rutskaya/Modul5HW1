@@ -17,21 +17,21 @@ namespace Modul5HW1.Services
         public async Task ResourceList()
         {
             Console.Write($"{nameof(ResourceList)}: ");
-            var list = await _httpService.SendPost<ResourceList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}");
+            var list = await _httpService.SendPost<ResourceList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}", Mode.GET);
             _config.ConfigSerialize(list, "resourceList.json");
         }
 
         public async Task SingleResource()
         {
             Console.Write($"{nameof(SingleResource)}: ");
-            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/2");
+            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/2", Mode.GET);
             _config.ConfigSerialize(list, "singleResource.json");
         }
 
         public async Task SingleResourceNotFound()
         {
             Console.Write($"{nameof(SingleResourceNotFound)}: ");
-            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/23");
+            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/23", Mode.GET);
             _config.ConfigSerialize(list, "singleResourceNotFound.json");
         }
     }

@@ -12,6 +12,7 @@ namespace Modul5HW1
 
             var serviceProvider = new ServiceCollection()
                .AddSingleton<IUserService, UserService>()
+               .AddSingleton<IAuthService, AuthService>()
                .AddSingleton<IHttpService, HttpService>()
                .AddTransient<Starter>()
                .BuildServiceProvider();

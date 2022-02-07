@@ -23,6 +23,8 @@ namespace Modul5HW1
             await _userService.UsersList();
             await _userService.SingleUser();
             await _userService.SingleUserNotFound();
+            await _userService.Create();
+            await _userService.UpdatePut();
 
             _resourceService = new ResourceService(_configService, _httpService);
             await _resourceService.ResourceList();

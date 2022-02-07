@@ -12,15 +12,36 @@ namespace Modul5HW1.Services
             _httpClient = new HttpClient();
         }
 
-        public async Task<T?> SendPost<T>(string url)
+        public async Task<T?> SendPost<T>(string url, Mode mode, HttpContent? httpContent = null)
         {
-            var result = await _httpClient.GetAsync(url);
-            Console.WriteLine(result.StatusCode);
-            if (result.IsSuccessStatusCode)
+            switch (mode)
             {
-                var content = await result.Content.ReadAsStringAsync();
-                var user = JsonConvert.DeserializeObject<T>(content);
-                return user;
+                case Mode.GET:
+                    var result = await _httpClient.GetAsync(url);
+                    Console.WriteLine(result.StatusCode);
+                    if (result.IsSuccessStatusCode)
+                    {
+                        var contentGet = await result.Content.ReadAsStringAsync();
+                        var userGet = JsonConvert.DeserializeObject<T>(contentGet);
+                        return userGet;
+                    }
+
+                    break;
+                case Mode.POST:
+
+                    var responsePost = await _httpClient.PostAsync(url, httpContent);
+                    Console.WriteLine(responsePost.StatusCode);
+                    var contentPost = await responsePost.Content.ReadAsStringAsync();
+                    var userPost = JsonConvert.DeserializeObject<T>(contentPost);
+                    return userPost;
+
+                case Mode.PUT:
+
+                    var response = await _httpClient.PutAsync(url, httpContent);
+                    Console.WriteLine(response.StatusCode);
+                    var contentPut = await response.Content.ReadAsStringAsync();
+                    var userPut = JsonConvert.DeserializeObject<T>(contentPut);
+                    return userPut;
             }
 
             return default(T);

@@ -1,6 +1,6 @@
 {
   "URL": "https://reqres.in",
-  "UserUrl": "/api/users/",
+  "UserUrl": "/api/users",
   "ResourceUrl": "/api/unknown",
   "RegisterUrl": "/api/register",
   "LoginUrl": "/api/login"
