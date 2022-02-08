@@ -21,8 +21,6 @@ namespace Modul5HW1
         {
             _userService = new UserService(_configService, _httpService);
 
-            var tasks = new List<Task>();
-
             var usersList = Task.Run(async () => await _userService.UsersList());
             var singleUser = Task.Run(async () => await _userService.SingleUser());
             var singleUserNotFound = Task.Run(async () => await _userService.SingleUserNotFound());
