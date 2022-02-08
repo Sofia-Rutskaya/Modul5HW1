@@ -6,60 +6,31 @@ namespace Modul5HW1.Services
 {
     public class HttpService : IHttpService
     {
+        private readonly IConfigService _config;
         private HttpClient _httpClient;
-        public HttpService()
+        public HttpService(IConfigService configService)
         {
             _httpClient = new HttpClient();
+            _config = configService;
         }
 
-        public async Task<T?> SendPost<T>(string url, Mode mode, HttpContent? httpContent = null)
+        public async Task SendPost<T>(string url, HttpMethod mode, string fileName, object? httpContent = null)
         {
-            switch (mode)
+            var request = new HttpRequestMessage(mode, url);
+
+            if (httpContent != null)
             {
-                case Mode.GET:
-                    var result = await _httpClient.GetAsync(url);
-                    Console.WriteLine(result.StatusCode);
-                    if (result.IsSuccessStatusCode)
-                    {
-                        var contentGet = await result.Content.ReadAsStringAsync();
-                        var userGet = JsonConvert.DeserializeObject<T>(contentGet);
-                        return userGet;
-                    }
-
-                    break;
-                case Mode.POST:
-
-                    var responsePost = await _httpClient.PostAsync(url, httpContent);
-                    Console.WriteLine(responsePost.StatusCode);
-                    var contentPost = await responsePost.Content.ReadAsStringAsync();
-                    var userPost = JsonConvert.DeserializeObject<T>(contentPost);
-                    return userPost;
-
-                case Mode.PUT:
-
-                    var responsePut = await _httpClient.PutAsync(url, httpContent);
-                    Console.WriteLine(responsePut.StatusCode);
-                    var contentPut = await responsePut.Content.ReadAsStringAsync();
-                    var userPut = JsonConvert.DeserializeObject<T>(contentPut);
-                    return userPut;
-
-                case Mode.PATCH:
-
-                    var responsePatch = await _httpClient.PatchAsync(url, httpContent);
-                    Console.WriteLine(responsePatch.StatusCode);
-                    var contentPatch = await responsePatch.Content.ReadAsStringAsync();
-                    var userPatch = JsonConvert.DeserializeObject<T>(contentPatch);
-                    return userPatch;
-                case Mode.DELETE:
-
-                    var responseDelete = await _httpClient.DeleteAsync(url);
-                    Console.WriteLine(responseDelete.StatusCode);
-                    var contentDelete = await responseDelete.Content.ReadAsStringAsync();
-                    var userDelete = JsonConvert.DeserializeObject<T>(contentDelete);
-                    return userDelete;
+                request.Content = new StringContent(JsonConvert.SerializeObject(httpContent), System.Text.UTF8Encoding.UTF8, "application/json");
             }
 
-            return default(T);
+            var result = await _httpClient.SendAsync(request);
+            if (result.IsSuccessStatusCode)
+            {
+                var content = await result.Content.ReadAsStringAsync();
+                var user = JsonConvert.DeserializeObject<T>(content);
+
+                _config.ConfigSerialize(user, $"{fileName}.json");
+            }
         }
     }
 }

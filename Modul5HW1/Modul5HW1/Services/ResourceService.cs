@@ -7,8 +7,8 @@ namespace Modul5HW1.Services
     public class ResourceService : IResourceService
     {
         private readonly IHttpService _httpService;
-        private readonly ConfigService _config;
-        public ResourceService(ConfigService config, IHttpService httpService)
+        private readonly IConfigService _config;
+        public ResourceService(IConfigService config, IHttpService httpService)
         {
             _httpService = httpService;
             _config = config;
@@ -16,23 +16,20 @@ namespace Modul5HW1.Services
 
         public async Task ResourceList()
         {
-            Console.Write($"{nameof(ResourceList)}: ");
-            var list = await _httpService.SendPost<ResourceList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}", Mode.GET);
-            _config.ConfigSerialize(list, "resourceList.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}";
+            await _httpService.SendPost<ResourceList>(url, HttpMethod.Get, nameof(ResourceList));
         }
 
         public async Task SingleResource()
         {
-            Console.Write($"{nameof(SingleResource)}: ");
-            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/2", Mode.GET);
-            _config.ConfigSerialize(list, "singleResource.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/2";
+            await _httpService.SendPost<ResourceSupport>(url, HttpMethod.Get, nameof(SingleResource));
         }
 
         public async Task SingleResourceNotFound()
         {
-            Console.Write($"{nameof(SingleResourceNotFound)}: ");
-            var list = await _httpService.SendPost<ResourceSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/23", Mode.GET);
-            _config.ConfigSerialize(list, "singleResourceNotFound.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.ResourceUrl}/23";
+            await _httpService.SendPost<ResourceSupport>(url, HttpMethod.Get, nameof(SingleResourceNotFound));
         }
     }
 }

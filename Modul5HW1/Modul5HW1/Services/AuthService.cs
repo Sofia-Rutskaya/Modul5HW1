@@ -8,8 +8,8 @@ namespace Modul5HW1.Services
     public class AuthService : IAuthService
     {
         private readonly IHttpService _httpService;
-        private readonly ConfigService _config;
-        public AuthService(ConfigService config, IHttpService httpService)
+        private readonly IConfigService _config;
+        public AuthService(IConfigService config, IHttpService httpService)
         {
             _httpService = httpService;
             _config = config;
@@ -17,54 +17,44 @@ namespace Modul5HW1.Services
 
         public async Task RegisterSuccessful()
         {
-            Console.Write($"{nameof(RegisterSuccessful)}: ");
             var user = new
             {
                 email = "eve.holt@reqres.in",
                 password = "pistol"
             };
-            var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-            var list = await _httpService.SendPost<RegisterSuccessful>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.RegisterUrl}", Mode.POST, client);
-            _config.ConfigSerialize(list, "registerSuccessful.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.RegisterUrl}";
+            await _httpService.SendPost<RegisterSuccessful>(url, HttpMethod.Post, nameof(RegisterSuccessful), user);
         }
 
         public async Task RegisterUnsuccessful()
         {
-            Console.Write($"{nameof(RegisterUnsuccessful)}: ");
             var user = new
             {
                 email = "sydney@fife"
             };
-            var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-            var list = await _httpService.SendPost<SomeError>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.RegisterUrl}", Mode.POST, client);
-            _config.ConfigSerialize(list, "registerUnsuccessful.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.RegisterUrl}";
+            await _httpService.SendPost<SomeError>(url, HttpMethod.Post, nameof(RegisterUnsuccessful), user);
         }
 
         public async Task LoginSuccessful()
         {
-            Console.Write($"{nameof(LoginSuccessful)}: ");
             var user = new
             {
                 email = "eve.holt@reqres.in",
                 password = "cityslicka"
             };
-
-            var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-            var list = await _httpService.SendPost<SomeToken>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.LoginUrl}", Mode.POST, client);
-            _config.ConfigSerialize(list, "loginSuccessful.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.LoginUrl}";
+            await _httpService.SendPost<SomeToken>(url, HttpMethod.Post, nameof(LoginSuccessful), user);
         }
 
         public async Task LoginUnsuccessful()
         {
-            Console.Write($"{nameof(LoginUnsuccessful)}: ");
             var user = new
             {
                 email = "peter@klaven"
             };
-
-            var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-            var list = await _httpService.SendPost<SomeError>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.LoginUrl}", Mode.POST, client);
-            _config.ConfigSerialize(list, "loginUnsuccessful.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.LoginUrl}";
+            await _httpService.SendPost<SomeError>(url, HttpMethod.Post, nameof(LoginUnsuccessful), user);
         }
     }
 }

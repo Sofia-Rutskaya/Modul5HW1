@@ -2,6 +2,6 @@
 {
     public interface IHttpService
     {
-        Task<T?> SendPost<T>(string url, Mode mode, HttpContent? httpContent = null);
+        Task SendPost<T>(string url, HttpMethod mode, string fileName, object? httpContent = null);
     }
 }

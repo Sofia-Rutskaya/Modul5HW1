@@ -17,76 +17,67 @@ namespace Modul5HW1.Services
 
         public async Task UsersList()
         {
-            Console.Write($"{nameof(UsersList)}: ");
-            var list = await _httpService.SendPost<UserList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/?page=2", Mode.GET);
-            _config.ConfigSerialize(list, "usersList.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/?page=2";
+            await _httpService.SendPost<UserList>(url, HttpMethod.Get, nameof(UsersList));
         }
 
         public async Task SingleUser()
         {
-            Console.Write($"{nameof(SingleUser)}: ");
-            var list = await _httpService.SendPost<UserSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.GET);
-            _config.ConfigSerialize(list, "singleUser.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2";
+            await _httpService.SendPost<UserSupport>(url, HttpMethod.Get, nameof(SingleUser));
         }
 
         public async Task SingleUserNotFound()
         {
-            Console.Write($"{nameof(SingleUserNotFound)}: ");
-            var list = await _httpService.SendPost<UserSupport>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/23", Mode.GET);
-            _config.ConfigSerialize(list, "singleUserNotFound.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/23";
+            await _httpService.SendPost<UserSupport>(url, HttpMethod.Get, nameof(SingleUserNotFound));
         }
 
         public async Task Create()
         {
-                Console.Write($"{nameof(Create)}: ");
-                var user = new
-                {
-                    name = "morpheus",
-                    job = "leader"
-                };
-                var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-                var list = await _httpService.SendPost<Create>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}", Mode.POST, client);
-                _config.ConfigSerialize(list, "create.json");
+            var user = new
+            {
+                name = "morpheus",
+                job = "leader"
+            };
+
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}";
+            await _httpService.SendPost<Create>(url, HttpMethod.Post, nameof(Create), user);
         }
 
         public async Task UpdatePut()
         {
-                Console.Write($"{nameof(UpdatePut)}: ");
-                var user = new
-                {
-                    name = "morpheus",
-                    job = "zion resident"
-                };
-                var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-                var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.PUT, client);
-                _config.ConfigSerialize(list, "updatePut.json");
+            var user = new
+            {
+                name = "morpheus",
+                job = "zion resident"
+            };
+
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2";
+            await _httpService.SendPost<Update>(url, HttpMethod.Put, nameof(UpdatePut), user);
         }
 
         public async Task UpdatePatch()
         {
-                Console.Write($"{nameof(UpdatePatch)}: ");
-                var user = new
-                {
-                    name = "morpheus",
-                    job = "zion resident"
-                };
-                var client = new StringContent(JsonConvert.SerializeObject(user), System.Text.UTF8Encoding.UTF8, "application/json");
-                var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.PATCH, client);
-                _config.ConfigSerialize(list, "updatePatch.json");
+            var user = new
+            {
+                name = "morpheus",
+                job = "zion resident"
+            };
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2";
+            await _httpService.SendPost<Update>(url, HttpMethod.Patch, nameof(UpdatePatch), user);
         }
 
         public async Task Delete()
         {
-                Console.Write($"{nameof(Delete)}: ");
-                var list = await _httpService.SendPost<Update>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2", Mode.DELETE);
-                _config.ConfigSerialize(list, "delete.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/2";
+            await _httpService.SendPost<Update>(url, HttpMethod.Delete, nameof(Delete));
         }
 
         public async Task Delayed()
         {
-            Console.Write($"{nameof(Delayed)}: ");
-            var list = await _httpService.SendPost<UserList>(@$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/?delay=3", Mode.GET);
-            _config.ConfigSerialize(list, "delayed.json");
+            var url = @$"{_config.ConfigDeserialize()?.URL}{_config.ConfigDeserialize()?.UserUrl}/?delay=3";
+            await _httpService.SendPost<UserList>(url, HttpMethod.Get, nameof(Delayed));
         }
     }
 }

@@ -14,6 +14,8 @@ namespace Modul5HW1
                .AddSingleton<IUserService, UserService>()
                .AddSingleton<IAuthService, AuthService>()
                .AddSingleton<IHttpService, HttpService>()
+               .AddSingleton<IConfigService, ConfigService>()
+               .AddSingleton<IResourceService, ResourceService>()
                .AddTransient<Starter>()
                .BuildServiceProvider();
 
