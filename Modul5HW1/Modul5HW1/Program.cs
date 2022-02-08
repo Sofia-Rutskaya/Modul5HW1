@@ -20,9 +20,7 @@ namespace Modul5HW1
                .BuildServiceProvider();
 
             var start = serviceProvider.GetService<Starter>();
-            start?.Run();
-
-            Console.Read();
+            start!.Run();
         }
     }
 }
